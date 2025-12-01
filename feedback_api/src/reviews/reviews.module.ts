@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { ReviewsModule } from './reviews/reviews.module';
+import { ReviewsService } from './reviews.service';
+import { ReviewsController } from './reviews.controller';
+import { PrismaService } from 'src/prisma.service';
+import { EventsService } from 'src/events/events.service';
 
 @Module({
   imports: [
-    UsersModule,
-    ReviewsModule,
     ClientsModule.register([
       {
         name: 'RABBITMQ_SERVICE',
@@ -23,7 +21,7 @@ import { ReviewsModule } from './reviews/reviews.module';
       },
     ]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [ReviewsController],
+  providers: [ReviewsService, PrismaService, EventsService],
 })
-export class AppModule {}
+export class ReviewsModule {}
